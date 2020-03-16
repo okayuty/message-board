@@ -44,8 +44,11 @@ class MessagesController extends Controller
      */
     public function store(Request $request)
     {
-        $message = new Message;
+        $this->validate($request, [
+            "content" => "required|max:255",
+        ]);
 
+        $message = new Message;
         $message->content = $request->content;
         $message->save();
 
@@ -88,7 +91,7 @@ class MessagesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {   
         $message = Message::find($id);
         $message->content = $request->content;
         $message->save();
